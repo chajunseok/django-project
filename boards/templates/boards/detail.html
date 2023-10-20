@@ -5,6 +5,7 @@
   <div class="d-flex justify-content-between">
     <h1 class="mb-4">상세 페이지</h1>
   </div>
+  <p>작성자 : {{ board.author }}</p>
   <p>글번호 : {{ board.id }}</p>  
   <p>글제목 : {{ board.title }}</p>
   <p>글내용 : {{ board.content }}</p>
@@ -14,10 +15,14 @@
   <div class="mb-5 d-flex justify-content-between">
     <a href="{% url 'boards:index' %}"><button class="btn btn-light">메인 페이지로</button></a>
     <div class="d-flex">
-      <a href="{% url 'boards:update' board.id %}"><button class="me-3 btn btn-success">수정하기</button></a>
+      {% if comment.author == request.user %}
+        <a href="{% url 'boards:update' board.id %}"><button class="me-3 btn btn-success">수정하기</button></a>
+      {% endif %}
       <form action="{% url 'boards:detail' board.id%}" method='POST'>
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">삭제하기</button>
+        {% if comment.author == request.user %}
+                <button class="btn btn-light">삭제하기</button>
+        {% endif %}
       </form>
     </div>
   </div>
@@ -31,7 +36,11 @@
     {% if comments|length == 0 %} 댓글이 없습니다.
     {% else %}
       {% for comment in comments %}
+      <div>
+        {{ comment.author }}
+      </div>
       <div class="my-3 d-flex justify-content-between">
+        
         <div>
           <span>{{ comment.content }}</span>
           <span class="mx-5">({{ comment.created_at }})</span>
@@ -39,7 +48,9 @@
           <div>
             <form action="{% url 'boards:comment_detail' board.id comment.id %}" method='POST'>
               {% csrf_token %}
-              <button class="btn btn-light">삭제하기</button>
+              {% if comment.author == request.user %}
+                <button class="btn btn-light">삭제하기</button>
+              {% endif %}
             </form>
           </div>
         </div>
