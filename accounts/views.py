@@ -30,7 +30,8 @@ def login(request):
 @login_required
 @require_http_methods(["POST"])
 def logout(request):
-    auth_logout(request)
+    if request.user.is_authenticated:
+        auth_logout(request)
     return redirect('boards:index')
 
 
@@ -42,7 +43,8 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            auth_login(request, user)
             return redirect('boards:index')
     else:
         form = CustomUserCreationForm()

@@ -52,7 +52,7 @@ def create(request):
         form = BoardForm(request.POST)
         if form.is_valid():
             board = form.save(commit=False)
-            board.author = request.author 
+            board.author = request.user
             form.save()
             return redirect('boards:detail', board.pk)
     else:
