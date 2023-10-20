@@ -80,3 +80,5 @@ def comment_detail(request, board_pk, comment_pk):
     if request.method == 'POST':
         comment.delete()
         return redirect('boards:detail', board_pk)
+
+
