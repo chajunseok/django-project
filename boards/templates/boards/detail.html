@@ -12,6 +12,16 @@
   <p>작성날짜 : {{ board.created_at }}</p>
   <p>수정날짜 : {{ board.updated_at }}</p>
   <hr>
+  <form action="{% url "boards:likes" board.pk %}" method="POST">
+    {% csrf_token %}
+    <p>좋아요 갯수 : {{ board.like_users.all|length }} </p>
+    {% if request.user in board.like_users.all %}
+      <input type="submit" value="좋아요 취소">
+    {% else %}
+      <input type="submit" value="좋아요">
+    {% endif %}
+  </form>
+  <hr>
   <div class="mb-5 d-flex justify-content-between">
     <a href="{% url 'boards:index' %}"><button class="btn btn-light">메인 페이지로</button></a>
     <div class="d-flex">

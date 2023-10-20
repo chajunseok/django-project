@@ -43,8 +43,8 @@
     <hr>
 
     <h2>좋아요를 누른 게시글</h2>
-    {% for article in person.like_articles.all %}
-        <p>{{ article.title }}</p>
+    {% for board in person.like_boards.all %}
+        <p>{{ board.title }}</p>
     {% endfor %}
 
 {% endblock  %}

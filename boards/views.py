@@ -82,3 +82,10 @@ def comment_detail(request, board_pk, comment_pk):
         return redirect('boards:detail', board_pk)
 
 
+def likes(request, board_pk):
+    board = Board.objects.get(pk=board_pk)
+    if request.user in board.like_users.all():
+        board.like_users.remove(request.user)
+    else:
+        board.like_users.add(request.user)
+    return redirect('boards:detail', board_pk)
