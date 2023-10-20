@@ -57,16 +57,23 @@ def signup(request):
 @require_http_methods(["POST"])
 def follow(request, user_pk):
     User = get_user_model()
-    you = User.objects.get(pk=user_pk)
-    me = request.author
+    # you = User.objects.get(pk=user_pk)
+    # me = request.author
 
-    if me != you:
-        if me in you.followers.all():   
-            you.followers.remove(me)
+    # if me != you:
+    #     if me in you.followers.all():   
+    #         you.followers.remove(me)
+    #     else:
+    #         you.followers.add(me)
+    #     return redirect('accounts:profile', you.username) 
+    person = User.objects.get(pk=user_pk)
+    if person != request.user:
+        if request.user in person.followers.all():
+            person.followers.remove(request.user)
         else:
-            you.followers.add(me)
-        return redirect('accounts:profile', you.username) 
-    
+            person.followers.add(request.user)
+    return redirect('accounts:profile', person.username)
+
 
 def profile(request, username):
     User = get_user_model()

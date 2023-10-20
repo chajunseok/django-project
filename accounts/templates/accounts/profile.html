@@ -1,32 +1,35 @@
 {% extends "base.html" %}
-    <div>
+    
+
+{% block content %}
         <div class="d-flex justify-content-between">
             <h1>{{ person.username }}님의 프로필 페이지</h1>
             <div>
                 <p>
                     팔로잉 : {{ person.followings.all|length}} / 팔로워 : {{ person.followers.all|length }}
                 </p>
-                {% if request.user != person %}
-                    <div>
-                        <form action="{% url "accounts:follow" person.pk %} " method="POST">
-                            {% csrf_token %}
-                            {% if request.user in person.followers.all %}
-                                <input type="submit" value="Unfollow">
-                            {% else %}
-                                <input type="submit" value="Follow">
-                            {% endif %}
-                        </form>
-                    </div>
-                    {% endif %}
             </div>
         </div>
-    </div>
+        <div>
+            {% if request.user != person %}
+                <div>
+                    <form action="{% url "accounts:follow" person.pk %} " method="POST">
+                    {% csrf_token %}
+                    {% if request.user in person.followers.all %}
+                        <input type="submit" value="Unfollow">
+                    {% else %}
+                        <input type="submit" value="Follow">
+                    {% endif %}
+                    </form>
+                </div>
+            {% endif %}
+        </div>
 
 
     <hr>
 
     <h2>유저가 쓴 게시글</h2>
-    {% for article in person.article_set.all  %}
+    {% for article in person.board_set.all  %}
         <p>{{ article.title }}</p>
     {% endfor %}
 
@@ -43,3 +46,5 @@
     {% for article in person.like_articles.all %}
         <p>{{ article.title }}</p>
     {% endfor %}
+
+{% endblock  %}

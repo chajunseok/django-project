@@ -70,6 +70,7 @@ def comment(request, board_pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.board = board
+            comment.author = request.user
             comment.save()
             return redirect('boards:detail', board.pk)
 
