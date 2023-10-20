@@ -8,16 +8,7 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="nav">
-    {% if user.is_authenticated %}
-      <h3 id="user-hello">Hello,{{request.user}}</h3>
-      <a href="{% url 'accounts:logout' %}">로그아웃</a>
-      
-    {% else %}
-      <a href="{% url 'accounts:signup' %}">회원가입</a>
-      <a href="{% url 'accounts:login' %}">로그인</a>
-    {% endif %}
-  </div>
+
 
   <div class="mt-3 container">
     <div class="mt-3 mb-4">
