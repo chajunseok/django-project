@@ -28,7 +28,7 @@ def login(request):
 
 
 @login_required
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
